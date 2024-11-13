@@ -28,15 +28,15 @@ import static org.mockito.Mockito.when;
 class TaskServiceTest {
 
     @Mock
-    private TaskRepository taskRepository;
+    TaskRepository taskRepository;
 
     @InjectMocks
-    private TaskService taskService;
+    TaskService taskService;
 
-    private TaskDto taskDto;
-    private Task task;
-    private List<TaskDto> randomTasksDto;
-    private List<Task> randomTasks;
+    TaskDto taskDto;
+    Task task;
+    List<TaskDto> randomTasksDto;
+    List<Task> randomTasks;
 
     @BeforeEach
     void setUp() {
