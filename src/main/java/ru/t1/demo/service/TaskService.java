@@ -1,6 +1,7 @@
 package ru.t1.demo.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.demo.dto.TaskDto;
 import ru.t1.demo.entity.Task;
 import ru.t1.demo.exception.TaskIsPresentException;
@@ -9,6 +10,7 @@ import ru.t1.demo.repository.TaskRepository;
 import ru.t1.demo.util.TaskMapper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -49,5 +51,26 @@ public class TaskService {
         Task taskToDelete = TaskMapper.toEntity(taskDto);
 
         taskRepository.delete(taskToDelete);
+    }
+
+    @Transactional
+    public TaskDto updateTask(UUID id, TaskDto updateTaskRequest) {
+
+        TaskDto existingTaskDto = getTaskById(id);
+        Task existingTask = TaskMapper.toEntity(existingTaskDto);
+
+        if (updateTaskRequest.title() != null && !Objects.equals(updateTaskRequest.title(), existingTaskDto.title())) {
+            existingTask.setTitle(updateTaskRequest.title());
+        }
+
+        if (updateTaskRequest.description() != null && !Objects.equals(updateTaskRequest.description(), existingTaskDto.description())) {
+            existingTask.setDescription(updateTaskRequest.description());
+        }
+
+        if (updateTaskRequest.status() != null && !Objects.equals(updateTaskRequest.status(), existingTaskDto.status())) {
+            existingTask.setStatus(updateTaskRequest.status());
+        }
+
+        return TaskMapper.toDto(existingTask);
     }
 }

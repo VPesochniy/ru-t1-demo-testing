@@ -33,8 +33,13 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTaskById(@PathVariable UUID id) {
+    public void deleteTask(@PathVariable UUID id) {
         taskService.deleteTaskById(id);
+    }
+
+    @PutMapping("/{id}")
+    public TaskDto updateTask(@PathVariable UUID id, @RequestBody TaskDto dto) {
+        return taskService.updateTask(id, dto);
     }
 
 }
